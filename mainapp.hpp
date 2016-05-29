@@ -1,6 +1,8 @@
 #include <string.h>
+#include <stdlib.h>
 
 using namespace std;
+
 
 const struct option long_options[] = {
 { "help"	, 0, NULL, 'h' },
@@ -26,38 +28,34 @@ class mainApp
 		void parse_args(int argc, char **argv){
 			char c;
 
-			while ((c = getopt_long(argc,argv, "hp:r:c:l:d:", long_options, NULL)) != -1)
+			while ((c = getopt_long(argc,argv, "hdp:r:c:l:", long_options, NULL)) != -1)
 				switch(c)
 				{
 					case 'h':
-						cout << "HELP!" << endl;
-						//system("clear");
-						//print_info(argv[0]);
-						//exit(0);
+						system("clear");
+						cout << "Here is a place for info page!" << endl;
+						exit(1);
 						break;
 					case 'r':
-						//strcpy(configuration.root, optarg);
+						cout << "Root directory: " << optarg << endl;
 						break;
 					case 'p':
-						//strcpy(configuration.port.name, optarg);
+						cout << "Number of port: " << optarg << endl;
 						break;
 					case 'c':
-						//setChroot = atoi(optarg);
+						cout << "Config file:  " << optarg << endl;
 						break;
 					case 'l':
-						//if(((strcpy(configuration.logfile, optarg)) == NULL))
-						//	die("Error alocating memory: LOGFILE", LOG_USER);
-						//strcpy(configuration.logfile, optarg);
+						cout << "Using logfile! File: " << optarg << endl;
 						break;
 					case 'd':
-						//configuration.setDaemon.val = atoi(optarg);
+						cout << "Creating daemon instance: " << endl;
 						break;
 					case '?':
-						//fprintf(stderr, "Wrong arguments!\n");
-						//exit(EXIT_FAILURE);
+					
 					default:
 						break;
-						//exit(EXIT_FAILURE);
+						exit(1);
 				}
 		}
 
