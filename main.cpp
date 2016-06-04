@@ -1,21 +1,47 @@
-#include <iostream>
+// https://wiki.qt.io
+
+#include <unistd.h>
+
 #include <cstdlib>
-#include <getopt.h>
-#include "mainapp.hpp"
-#include "server.hpp"
 
-using namespace std;
+#include <QCoreApplication>
+#include <QDebug>
+#include <QSettings>
+#include <QStringList>
+
+#include "IotServer.h"
+#include "Listener.h"
+#include "Logger.h"
 
 
-
-int main(int argc, char *argv[])
+int main(int argc, char** argv)
 {
-	Server myServer;			
-	mainApp myApp;
+	QCoreApplication app(argc, argv);
+	QStringList cmdLine = QCoreApplication::arguments();
+	
+	QSettings settings("myapp.ini", QSettings::IniFormat);
+	settings.setValue("monkey", 1);
 
-	myApp.parse_args(argc, argv);
-	myApp.print_arguments(argc, argv);
+	qDebug() << "Command Line args:";
+	
+	for (QStringList::iterator it = cmdLine.begin(); it != cmdLine.end(); ++it)
+		qDebug() << *it;
 
-	return 0;
+	if (cmdLine.count() == 2)
+	{
+		if (cmdLine[1] == "-d")
+		{
+			qDebug() << "Daemonizing...";
+			daemon(1, 0);
+		}
+		else
+			qDebug() << "Running as standalone...";
+	}
+
+	IotServer iotServer;
+	// QMetaObject::invokeMethod(&iotServer, "run", Qt::QueuedConnection);
+	qDebug() << "Starting Iot server:";
+	iotServer.run();
+
+	return app.exec();
 }
-
