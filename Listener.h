@@ -27,7 +27,7 @@ public:
 		QString str = QString("New Thread on socket %1").arg(this->socket);
 		qDebug() << "Thread start with socket: " << this->socket;
 		logger->write(str);
-
+/*
     while (server->hasPendingConnections())
     {
         QTcpSocket *socket = server->nextPendingConnection();
@@ -38,6 +38,7 @@ public:
         buffers.insert(socket, buffer);
         sizes.insert(socket, s);
     }
+*/
 	}	
 
 
