@@ -45,15 +45,14 @@ public:
 
 public slots:
 
-//	void on_readyRead()
-//	{
-//		//QTcpSocket * senderSocket = dynamic_cast<QTcpSocket*>(sender());
-//		QTcpSocket * senderSocket = this->newSocket;
-//		if(senderSocket){
-//			qDebug() << "reading data:";
-//			qDebug() << senderSocket->readAll();
-//		}
-//	}
+	void on_readyRead()
+	{
+		QTcpSocket * senderSocket = this->newSocket;
+		if(senderSocket){
+			qDebug() << "reading data:";
+			qDebug() << senderSocket->readAll();
+		}
+	}
 
 private:
 	Logger *logger;
