@@ -10,21 +10,35 @@
 class Logger;
 class Listener;
 
-class IotServer : public QObject
+class IotServer : public QSignalMapper
 {
 	Q_OBJECT
 	QTcpServer *server = new QTcpServer();
 
 	private:
-	Logger *logger;
+		Logger *logger;
+		QTcpSocket* client;
 
 public slots:
 	
-	void list()
+	void listenConnection()
 	{
+		QTcpSocket * newSocket = this->server->nextPendingConnection();
+		
+		qDebug() << this->server->socketDescriptor();
+
+		if(newSocket)
+		{
+			connect(newSocket, SIGNAL(readyRead()),this,SLOT(on_readyRead()));
+
+			connect(newSocket, SIGNAL(disconnected()),newSocket ,SLOT(deleteLater()));
+		}
+		
 		int sockd = this->server->socketDescriptor();
 		Listener *listener = new Listener(sockd);
 		qDebug() << "Start listen... on socket:" << sockd;
+		
+		
 		listener->start();
 		// free
 	}
@@ -34,7 +48,7 @@ public slots:
 		logger = new Logger(NULL, "tcpserver.log");
 		logger->write("App starts");
 	
-		qDebug() << "Create sql database...";
+		qDebug() << "Create sql database for storing sensor data...";
 		QSqlDatabase db;
 		db = QSqlDatabase::addDatabase("QSQLITE");
 		db.setDatabaseName("db.sql");
@@ -57,14 +71,24 @@ public slots:
 		int sockd = this->server->socketDescriptor();
 		qDebug() << " Connect to signal";
 		
-		connect(this->server, SIGNAL(newConnection()), this, SLOT(list()));
+		connect(this->server, SIGNAL(newConnection()), this, SLOT(listenConnection()));
 		qDebug() << "Socket descriptor = " << sockd;
+		
+		if(this->server->isListening())
+			qDebug() << "Server is listening...";
+		
+	}
+
+	void on_readyRead()
+	{
+		QTcpSocket * senderSocket = dynamic_cast<QTcpSocket*>(sender());
+		if(senderSocket){
+			qDebug() << "reading data:";
+			qDebug() << senderSocket->readAll();
+		}
 	}
 	
-	void obsluz_konekta( int socket)
-	{
-		qDebug() << "Nr socketa w obsluz_konekta: " << socket;	
-	}
+
 };
 	
 

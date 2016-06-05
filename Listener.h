@@ -8,6 +8,7 @@
 #include <QByteArray>
 #include <QAbstractSocket>
 #include <QString>
+#include <QTcpServer>
 
 class Listener : public QThread, public QString
 {
@@ -27,23 +28,36 @@ public:
 		QString str = QString("New Thread on socket %1").arg(this->socket);
 		qDebug() << "Thread start with socket: " << this->socket;
 		logger->write(str);
-/*
-    while (server->hasPendingConnections())
-    {
-        QTcpSocket *socket = server->nextPendingConnection();
-        connect(socket, SIGNAL(readyRead()), SLOT(readyRead()));
-        connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
-        QByteArray *buffer = new QByteArray();
-        qint32 *s = new qint32(0);
-        buffers.insert(socket, buffer);
-        sizes.insert(socket, s);
-    }
-*/
-	}	
+	
+//		newSocket = new QTcpSocket();
+//		
+//		this->newSocket->setSocketDescriptor(socket);
+//
+//		qDebug() << this->newSocket->socketDescriptor();
+//
+//		if(newSocket)
+//		{
+//			connect(this->newSocket, SIGNAL(readyRead()),this,SLOT(on_readyRead()));
+//
+//			connect(this->newSocket, SIGNAL(disconnected()),this->newSocket ,SLOT(deleteLater()));
+//		}
+	}
 
+public slots:
+
+//	void on_readyRead()
+//	{
+//		//QTcpSocket * senderSocket = dynamic_cast<QTcpSocket*>(sender());
+//		QTcpSocket * senderSocket = this->newSocket;
+//		if(senderSocket){
+//			qDebug() << "reading data:";
+//			qDebug() << senderSocket->readAll();
+//		}
+//	}
 
 private:
 	Logger *logger;
+	QTcpSocket *newSocket;
 };
 
 #endif // LISTENER_H
