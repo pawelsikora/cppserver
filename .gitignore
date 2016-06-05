@@ -2,3 +2,6 @@ Makefile
 *.o
 *.sql
 *.ini
+*.log
+moc*.cpp
+cppserver
