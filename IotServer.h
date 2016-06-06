@@ -31,7 +31,7 @@ class IotServer : public QSignalMapper
 			this->ip_addr = new QHostAddress("127.0.0.1");
 		}
 
-		IotServer( QString ip_addr, int port)
+		IotServer( const QString ip_addr, int port)
 		{
 			this->ip_addr = new QHostAddress(ip_addr);
 			this->port = port;

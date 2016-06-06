@@ -18,10 +18,22 @@ int main(int argc, char** argv)
 {
 	QCoreApplication app(argc, argv);
 	QStringList cmdLine = QCoreApplication::arguments();
+	QString ip;
+	QVariant tmp_qv;
+	int port;
 	
 	QSettings settings("myapp.ini", QSettings::IniFormat);
 	settings.setValue("tcpport", 6666);
 	settings.setValue("tcpip", "127.0.0.1");
+
+	tmp_qv = settings.value("tcpip");
+	ip = tmp_qv.toString();
+
+	tmp_qv = settings.value("tcpport");
+	port = tmp_qv.toInt();
+
+	qDebug() << "from setttings ip:" << ip;
+	qDebug() << "from settings port: " << port;
 
 	qDebug() << "Command Line args:";
 	
@@ -41,7 +53,7 @@ int main(int argc, char** argv)
 			qDebug() << "Running as standalone application...";
 	}
 
-	IotServer iotServer;
+	IotServer iotServer(ip, port);
 	qDebug() << "Starting server...";
 	iotServer.run();
 
