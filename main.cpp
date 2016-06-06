@@ -23,8 +23,11 @@ int main(int argc, char** argv)
 	int port;
 	
 	QSettings settings("myapp.ini", QSettings::IniFormat);
-	settings.setValue("tcpport", 6666);
-	settings.setValue("tcpip", "127.0.0.1");
+	
+	if(!settings.contains("tcpport"))
+		settings.setValue("tcpport", 6666);
+	if(!settings.contains("tcpip"))
+		settings.setValue("tcpip", "127.0.0.1");
 
 	tmp_qv = settings.value("tcpip");
 	ip = tmp_qv.toString();
