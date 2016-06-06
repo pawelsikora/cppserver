@@ -22,9 +22,9 @@ class Creator
 			
 		}
 
-		Logger* logger()
+		Logger* logger(QString filename)
 		{
-			log = new Logger(NULL, "tcpserver.log");
+			log = new Logger(NULL, filename);
 			return log;
 		}
 		

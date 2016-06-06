@@ -67,8 +67,8 @@ class IotServer : public QSignalMapper
 		
 			create = new Creator();
 
-			logger = create->logger();
-			logger->write("Server app starts...");
+			logger = create->logger("tcpserver.log");
+			logger->write("Server app starts...\n");
 
 			QSqlDatabase db = create->database();
 			db.open();
@@ -105,7 +105,10 @@ class IotServer : public QSignalMapper
 			QTcpSocket * senderSocket = dynamic_cast<QTcpSocket*>(sender());
 			if(senderSocket){
 				qDebug() << "Reading data:";
-				qDebug() << senderSocket->readAll();
+				QString readall = senderSocket->readAll();
+				qDebug() << readall;
+				logger->write("Reading data: \n");
+				logger->write(readall);
 			}
 		}
 	
