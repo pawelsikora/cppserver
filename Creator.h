@@ -3,12 +3,15 @@
 
 #include <QDebug>
 #include <QSqlDatabase>
+#include "Logger.h"
 
 class Creator
 {
 
 
 	public:
+		Logger *log;
+
 		QSqlDatabase database()
 		{
 			qDebug() << "Creating sql database for storing sensor data...";
@@ -18,7 +21,12 @@ class Creator
 			return db;
 			
 		}
-		
+
+		Logger* logger()
+		{
+			log = new Logger(NULL, "tcpserver.log");
+			return log;
+		}
 		
 };
 

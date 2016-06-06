@@ -37,6 +37,7 @@ class IotServer : public QSignalMapper
 			this->port = port;
 		}
 
+	
 	public slots:
 
 	
@@ -62,10 +63,13 @@ class IotServer : public QSignalMapper
 
 		void run()
 		{
-			logger = new Logger(NULL, "tcpserver.log");
-			logger->write("Server app starts...");
+			//logger = new Logger(NULL, "tcpserver.log");
 		
 			create = new Creator();
+
+			logger = create->logger();
+			logger->write("Server app starts...");
+
 			QSqlDatabase db = create->database();
 			db.open();
 
