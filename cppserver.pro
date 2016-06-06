@@ -9,5 +9,5 @@ INCLUDEPATH += .
 QT += sql network
 
 # Input
-HEADERS += IotServer.h Logger.h Listener.h
+HEADERS += IotServer.h Logger.h Listener.h Creator.h
 SOURCES += Logger.cpp main.cpp

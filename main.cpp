@@ -20,13 +20,16 @@ int main(int argc, char** argv)
 	QStringList cmdLine = QCoreApplication::arguments();
 	
 	QSettings settings("myapp.ini", QSettings::IniFormat);
-	settings.setValue("monkey", 1);
+	settings.setValue("tcpport", 6666);
+	settings.setValue("tcpip", "127.0.0.1");
 
 	qDebug() << "Command Line args:";
 	
 	for (QStringList::iterator it = cmdLine.begin(); it != cmdLine.end(); ++it)
+	{
 		qDebug() << *it;
 
+	}
 	if (cmdLine.count() == 2)
 	{
 		if (cmdLine[1] == "-d")
@@ -35,12 +38,11 @@ int main(int argc, char** argv)
 			daemon(1, 0);
 		}
 		else
-			qDebug() << "Running as standalone...";
+			qDebug() << "Running as standalone application...";
 	}
 
 	IotServer iotServer;
-	// QMetaObject::invokeMethod(&iotServer, "run", Qt::QueuedConnection);
-	qDebug() << "Starting Iot server:";
+	qDebug() << "Starting server...";
 	iotServer.run();
 
 	return app.exec();

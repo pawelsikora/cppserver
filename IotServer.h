@@ -6,6 +6,7 @@
 #include "Listener.h"
 #include <QtSql/QtSql>
 #include <QSignalMapper>
+#include <Creator.h>
 
 class Logger;
 class Listener;
@@ -18,8 +19,26 @@ class IotServer : public QSignalMapper
 		Logger *logger;
 		QTcpSocket* client;
 		QTcpServer *server = new QTcpServer();
+		Creator *create;
+		QHostAddress *ip_addr;
+
+		int port;
+	public:
+		
+		IotServer()
+			: port (6666)
+		{
+			this->ip_addr = new QHostAddress("127.0.0.1");
+		}
+
+		IotServer( QString ip_addr, int port)
+		{
+			this->ip_addr = new QHostAddress(ip_addr);
+			this->port = port;
+		}
 
 	public slots:
+
 	
 		void listenConnection()
 		{
@@ -46,10 +65,8 @@ class IotServer : public QSignalMapper
 			logger = new Logger(NULL, "tcpserver.log");
 			logger->write("Server app starts...");
 		
-			qDebug() << "Creating sql database for storing sensor data...";
-			QSqlDatabase db;
-			db = QSqlDatabase::addDatabase("QSQLITE");
-			db.setDatabaseName("db.sql");
+			create = new Creator();
+			QSqlDatabase db = create->database();
 			db.open();
 
 			qDebug() << " Do sql query...";
@@ -65,7 +82,8 @@ class IotServer : public QSignalMapper
 			db.close();
 
 			qDebug() << " Listen on port 6666...";
-			this->server->listen(QHostAddress::Any, 6666);
+			//this->server->listen(QHostAddress::Any, 6666);
+			this->server->listen(*(this->ip_addr), this->port);
 			
 			int sockd = this->server->socketDescriptor();
 			qDebug() << " Connect to signal";
