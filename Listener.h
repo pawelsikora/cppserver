@@ -12,7 +12,7 @@
 #include "Logger.h"
 #include "Creator.h"
 
-class Listener : public QThread, public QString
+class Listener : public QThread
 {
 	Q_OBJECT
 

@@ -17,7 +17,6 @@ class IotServer : public QSignalMapper
 
 	private:
 		Logger *logger;
-		QTcpSocket* client;
 		QTcpServer *server = new QTcpServer();
 		Creator *create;
 		QHostAddress *ip_addr;

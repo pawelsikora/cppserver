@@ -7,8 +7,6 @@
 
 class Creator
 {
-
-
 	public:
 		Logger *log;
 
