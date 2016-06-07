@@ -22,6 +22,28 @@ int main(int argc, char** argv)
 	QVariant tmp_qv;
 	int port;
 	
+	for (QStringList::iterator it = cmdLine.begin(); it != cmdLine.end(); ++it)
+	{
+		
+		if(*it == "-d")
+		{
+			qDebug() << "Daemonizing...";
+			daemon(1, 0);
+		
+		} else if (*it == "-h" || *it == "--help")
+		{
+			qDebug() << "----- HELP -----\n"
+				    "Start application with simply invoke ./cppserver "
+				    "without any arguments.\n You can specify you ip address"
+				    "and port in myapp.ini file.\n If file not exist, just "
+				    "execute app first time and it will be created.\n Then just "
+				    "replace default ip and port with values you want\n";
+			exit(EXIT_SUCCESS);
+		}
+		
+		//qDebug() << *it;
+	}
+
 	QSettings settings("myapp.ini", QSettings::IniFormat);
 	
 	if(!settings.contains("tcpport"))
@@ -40,22 +62,6 @@ int main(int argc, char** argv)
 
 	qDebug() << "Command Line args:";
 	
-	for (QStringList::iterator it = cmdLine.begin(); it != cmdLine.end(); ++it)
-	{
-		qDebug() << *it;
-
-	}
-	if (cmdLine.count() == 2)
-	{
-		if (cmdLine[1] == "-d")
-		{
-			qDebug() << "Daemonizing...";
-			daemon(1, 0);
-		}
-		else
-			qDebug() << "Running as standalone application...";
-	}
-
 	IotServer iotServer(ip, port);
 	qDebug() << "Starting server...";
 	iotServer.run();

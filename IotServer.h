@@ -21,7 +21,6 @@ class IotServer : public QSignalMapper
 		QTcpServer *server = new QTcpServer();
 		Creator *create;
 		QHostAddress *ip_addr;
-
 		int port;
 	public:
 		
@@ -63,8 +62,6 @@ class IotServer : public QSignalMapper
 
 		void run()
 		{
-			//logger = new Logger(NULL, "tcpserver.log");
-		
 			create = new Creator();
 
 			logger = create->logger("tcpserver.log");
@@ -85,8 +82,7 @@ class IotServer : public QSignalMapper
 
 			db.close();
 
-			qDebug() << " Listen on port 6666...";
-			//this->server->listen(QHostAddress::Any, 6666);
+			qDebug() << " Listen on port ..." << this->port;
 			this->server->listen(*(this->ip_addr), this->port);
 			
 			int sockd = this->server->socketDescriptor();

@@ -34,8 +34,7 @@ public:
 	{
 		QString str = QString("New Thread on socket %1\n").arg(this->socket);
 		qDebug() << "Thread start with socket: " << this->socket;
-		logger->write(str);
-	
+		logger->write(str);	
 	}
 
 };
