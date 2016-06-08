@@ -13,5 +13,6 @@ $ ./cppserver
 After first run you can configure ip and port values in myapp.ini configuration file.
 
 Authors:
-Paweł Sikora
+Paweł Sikora, 
+
 Dorian Wójtowicz
